@@ -1,5 +1,5 @@
 const express=require('express')
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 //dados de configuracao do servidor
 const dbUrl = 'mongodb+srv://admin:WeL94dTtknnEOVJr@cluster0.1b2ewyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
@@ -34,9 +34,9 @@ app.get('/personagem/count', (req,res)=>{
 })
 
 //endpoint read by id get
-app.get('/personagem/:id', (req,res)=>{
+app.get('/personagem/:id', async (req,res)=>{
     let id = req.params.id
-    const item = lista[id - 1]
+    const item = await collection.findOne({_id: new ObjectId(id)})
     if(!item){
         return res.status(404).send('Item não encontrado.')
     }
