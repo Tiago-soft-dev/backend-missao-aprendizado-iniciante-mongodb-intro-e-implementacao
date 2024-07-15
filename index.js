@@ -22,8 +22,9 @@ app.use(express.json())
 const lista = ['Java', 'Kotlin', 'Android']
 
 //endpoint read all get
-app.get('/personagem', (req,res)=>{
-    res.send(lista)
+app.get('/personagem', async (req,res)=>{
+    const itens = await collection.find().toArray()
+    res.send(itens)
 })
 
 //endpoint /personagem/count
