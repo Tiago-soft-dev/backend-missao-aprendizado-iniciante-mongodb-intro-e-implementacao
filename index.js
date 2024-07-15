@@ -1,4 +1,20 @@
 const express=require('express')
+const { MongoClient } = require('mongodb')
+
+//dados de configuracao do servidor
+const dbUrl = 'mongodb+srv://admin:WeL94dTtknnEOVJr@cluster0.1b2ewyf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const dbName = 'mongodb-intro-e-implementacao'
+
+async function main(){
+
+//conexao do servidor    
+const client = new MongoClient(dbUrl)
+console.log('Conectando ao BD');
+await client.connect()
+console.log('BD conectado');
+const db = client.db(dbName)
+const collection = db.collection('personagem')
+
 const app=express()
 app.use(express.json())
 
@@ -58,7 +74,6 @@ app.delete('/personagem/:id', (req,res)=>{
     res.send('Item deletado com sucesso! ')
 })
 
-
-
-
 app.listen(3000, ()=>console.log('servidor online'))
+}
+main()
