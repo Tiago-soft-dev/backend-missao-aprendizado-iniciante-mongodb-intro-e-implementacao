@@ -79,9 +79,9 @@ app.put('/personagem/:id', async (req,res)=>{
 })
 
 //endpoint delete
-app.delete('/personagem/:id', (req,res)=>{
-    const id = req.params.id - 1
-    delete lista[id]
+app.delete('/personagem/:id', async (req,res)=>{
+    const id = req.params.id 
+    await collection.deleteOne({_id: new ObjectId(id)})
     res.send('Item deletado com sucesso! ')
 })
 
