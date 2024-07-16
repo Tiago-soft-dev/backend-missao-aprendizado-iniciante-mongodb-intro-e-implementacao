@@ -44,19 +44,21 @@ app.get('/personagem/:id', async (req,res)=>{
 })
 
 //endpoint create post
-app.post('/personagem',(req,res)=>{
-    const body = req.body
-    const novoItem = body.nome
-    if(!novoItem){
+app.post('/personagem', async (req,res)=>{
+    const novoItem = req.body
+    
+    if(!novoItem || !novoItem.nome){
         return res.status(400).send('Corpo da requisição inválido')
     }
 
-    if(lista.includes(novoItem)){
-        return res.status(409).send('Item já existe na lista')
-    }
+    // if(lista.includes(novoItem)){
+    //     return res.status(409).send('Item já existe na lista')
+    // }
     
-    lista.push(novoItem)
-    res.status(201).send('Item adicionado com sucesso: ' + novoItem)
+    await collection.insertOne(novoItem)
+
+    
+    res.status(201).send(novoItem)
 })
 
 //endpoint update put
