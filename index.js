@@ -62,12 +62,20 @@ app.post('/personagem', async (req,res)=>{
 })
 
 //endpoint update put
-app.put('/personagem/:id', (req,res)=>{
-    const id = req.params.id - 1
-    const body = req.body
-    lista[id] = body.nome
-    res.send('Item atualizado com sucesso')
+app.put('/personagem/:id', async (req,res)=>{
+    const id = req.params.id
+    const novoItem = req.body
+    
+    if(!novoItem || !novoItem.nome){
+        return res.status(400).send('Corpo da requisição inválido')
+    }
 
+    await collection.updateOne(
+        {_id: new ObjectId(id)},
+        {$set: novoItem}
+    )
+
+    res.send(novoItem)
 })
 
 //endpoint delete
