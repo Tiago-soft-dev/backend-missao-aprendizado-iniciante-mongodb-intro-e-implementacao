@@ -66,6 +66,12 @@ app.put('/personagem/:id', async (req,res)=>{
     const id = req.params.id
     const novoItem = req.body
     
+    const item = await collection.findOne({_id: new ObjectId(id)})
+    
+    if(!item){
+        return res.send('Item não encontrado')
+    }
+
     if(!novoItem || !novoItem.nome){
         return res.status(400).send('Corpo da requisição inválido')
     }
